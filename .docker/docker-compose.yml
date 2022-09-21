@@ -1,0 +1,22 @@
+services: 
+
+  php: 
+    build:
+      context: ./
+      dockerfile: ./php/Dockerfile
+    container_name: ${COMPOSE_PROJECT_NAME}_php 
+    links:
+      - pgsql:pgsql
+    volumes:
+      - ../:/var/www/html/
+    ports:
+      - 81:80
+
+  pgsql:
+    image: postgres
+    container_name: ${COMPOSE_PROJECT_NAME}_pgsql
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: ${COMPOSE_PROJECT_NAME}
+    ports:
+      - 5433:5432

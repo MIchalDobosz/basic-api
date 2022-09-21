@@ -1,0 +1,28 @@
+#!/usr/bin/env php
+<?php
+
+use App\App;
+use App\DB;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+App::getInstance();
+
+// Authors
+$stmt = DB::prepare('CREATE TABLE authors (
+    id SERIAL PRIMARY KEY,
+    first_nam VARCHAR NOT NULL,
+    last_name VARCHAR NOT NULL
+)');
+
+$stmt->execute();
+
+// Books
+$stmt = DB::prepare('CREATE TABLE books (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR NOT NULL,
+    author_id INT NOT NULL,
+    CONSTRAINT fk_author FOREIGN KEY(author_id) REFERENCES authors(id)
+)');
+
+$stmt->execute();
